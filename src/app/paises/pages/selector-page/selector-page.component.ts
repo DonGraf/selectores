@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PaisSMall } from '../../interfaces/paises.interfaces';
 import { PaisesService } from '../../services/paises.service';
 
 @Component({
@@ -17,6 +18,7 @@ export class SelectorPageComponent implements OnInit {
 
   //llenar selectores
   regiones: string[] = [];
+  paises: PaisSMall[] = [];
 
   constructor(private fb: FormBuilder,
               private paisesService: PaisesService) { }
@@ -24,6 +26,15 @@ export class SelectorPageComponent implements OnInit {
   ngOnInit(): void {
     //envio de la data a la vista
     this.regiones = this.paisesService.regiones;
+
+    //Cuando seleccione la region
+    this.miFormulario.get('region')?.valueChanges.subscribe(region => {
+      console.log(region);
+      this.paisesService.getPaisesPorRegion(region).subscribe( paises => {
+        this.paises = paises;
+        console.log(paises);
+      })
+    })
   }
 
   //metodo
