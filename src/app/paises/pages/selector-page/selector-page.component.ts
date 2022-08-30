@@ -16,6 +16,7 @@ export class SelectorPageComponent implements OnInit {
     //Definicion del formulario
     region: ['',Validators.required],
     pais: ['',Validators.required],
+    frontera: ['', Validators.required]
   });
 
   //llenar selectores
@@ -36,7 +37,13 @@ export class SelectorPageComponent implements OnInit {
       tap( ( _ ) => { this.miFormulario.get('pais')?.reset('');} ), 
       switchMap( region => this.paisesService.getPaisesPorRegion(region))
     ).subscribe( paises => { this.paises = paises;})
+    
+    //Cuando cambia el pais
+    this.miFormulario.get('pais')?.valueChanges.subscribe( codigo => {
+      console.log(codigo);
+    })
   }
+
 
   //metodo
   guardar(){
